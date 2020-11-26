@@ -68,12 +68,14 @@ ap.add_argument("-w", "--width", type=int, default=320,
                 help="nearest multiple of 32 for resized width")
 ap.add_argument("-e", "--height", type=int, default=320,
                 help="nearest multiple of 32 for resized height")
-ap.add_argument("-p", "--padding", type=float, default=0.05,
+ap.add_argument("-p", "--padding", type=float, default=0.01,
                 help="amount of padding to add to each border of ROI")
 args = vars(ap.parse_args())
 
 # load the input image and grab the image dimensions
 image = cv2.imread(args["image"])
+
+blank_image = cv2.imread("../cbccwithoutname.png")
 orig = image.copy()
 (origH, origW) = image.shape[:2]
 # set the new width and height and then determine the ratio in change
@@ -153,10 +155,28 @@ for ((startX, startY, endX, endY), text) in results:
     # the text region of the input image
     text = "".join([c if ord(c) < 128 else "" for c in text]).strip()
     output = orig.copy()
-    cv2.rectangle(output, (startX, startY), (endX, endY),
-                  (0, 0, 255), 2)
-    cv2.putText(output, text, (startX, startY - 20),
-                cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 255), 3)
+    """
+    output[0,startX:endX,startY:endY] = (255,255,255)
+    output[1,startX:endX,startY:endY] = (255,255,255)
+    output[2,startX:endX,startY:endY] = (255,255,255)"""
+    print("Done")
+
+    if text.lower() == "ROHIT".lower():
+        blank_copy = blank_image.copy()
+        modified_image = cv2.putText(blank_copy, "ANKIT KHOKHAR", (startX+8, endY),
+                    cv2.FONT_HERSHEY_SIMPLEX , 0.68, (215, 215, 215), 2, lineType=cv2.LINE_AA , bottomLeftOrigin=None)
+
+        """from PIL import Image, ImageDraw, ImageFont
+
+        img = Image.open('images/logo.jpg')
+        d1 = ImageDraw.Draw(img)
+        d1.text((startX+8, endY), "Sample text", font=myFont, fill =(215, 215, 215))
+        img.show()
+        img.save("images/image_text.jpg")"""
+    #output[startX:endX, startY:endY] = [255,255,255]
+    
     # show the output image
-    cv2.imshow("Text Detection", output)
-    cv2.waitKey(0)
+    # cv2.imshow("Text Detection", output)
+    # cv2.waitKey(0)
+
+cv2.imwrite("../cbcc_card_modified.png", modified_image)
