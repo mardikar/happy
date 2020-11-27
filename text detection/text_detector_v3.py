@@ -163,18 +163,21 @@ for ((startX, startY, endX, endY), text) in results:
 
     if text.lower() == "ROHIT".lower():
         blank_copy = blank_image.copy()
-        modified_image = cv2.putText(blank_copy, "ANKIT KHOKHAR", (startX+8, endY),
-                    cv2.FONT_HERSHEY_SIMPLEX , 0.68, (215, 215, 215), 2, lineType=cv2.LINE_AA , bottomLeftOrigin=None)
+        modified_image = cv2.putText(blank_copy, "ANKIT KHOKHAR", (startX + 8, endY),
+                                     cv2.FONT_HERSHEY_SIMPLEX, 0.68, (215, 215, 215), 2, lineType=cv2.LINE_AA,
+                                     bottomLeftOrigin=None)
 
-        """from PIL import Image, ImageDraw, ImageFont
 
-        img = Image.open('images/logo.jpg')
+        from PIL import Image, ImageDraw, ImageFont
+
+        img = Image.open("../cbccwithoutname.png")
         d1 = ImageDraw.Draw(img)
-        d1.text((startX+8, endY), "Sample text", font=myFont, fill =(215, 215, 215))
+        myFont = ImageFont.truetype("../Cousine-Regular.ttf", 22)
+        d1.text((startX + 8, endY - 16), "SAURABH MARDIKAR", font=myFont, fill=(232, 232, 232))
         img.show()
-        img.save("images/image_text.jpg")"""
-    #output[startX:endX, startY:endY] = [255,255,255]
-    
+        img.save("../image_text.png")
+    # output[startX:endX, startY:endY] = [255,255,255]
+
     # show the output image
     # cv2.imshow("Text Detection", output)
     # cv2.waitKey(0)
